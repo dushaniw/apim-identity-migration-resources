@@ -104,6 +104,10 @@
             <groupId>org.wso2.identity.apps</groupId>
             <artifactId>org.wso2.identity.apps.common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.inbound.provisioning.scim2</groupId>
+            <artifactId>org.wso2.carbon.identity.scim2.common</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -56,6 +56,7 @@ public class GroupsAndRolesMigrator extends Migrator {
 
     private RealmService realmService = ISMigrationServiceDataHolder.getRealmService();
     private ReportUtil reportUtil;
+    private static final String CURRENT_ADMIN_ROLE_NAME = "currentAdminRoleName";
 
     @Override
     public void dryRun() throws MigrationClientException {
@@ -165,15 +166,20 @@ public class GroupsAndRolesMigrator extends Migrator {
         String adminGroupName = UserCoreUtil.removeDomainFromName(adminRoleNameWithDomain);
         String adminUserNameWithDomain = userRealm.getRealmConfiguration().getAdminUserName();
         String adminUserName = UserCoreUtil.removeDomainFromName(adminUserNameWithDomain);
+        String currentAdminGroupName = adminGroupName;
+        if (getMigratorConfig() != null && getMigratorConfig().getParameters() != null &&
+                getMigratorConfig().getParameters().getProperty(CURRENT_ADMIN_ROLE_NAME) != null) {
+            currentAdminGroupName = getMigratorConfig().getParameters().getProperty(CURRENT_ADMIN_ROLE_NAME);
+        }
         userStoreManager.addRole(UserCoreConstants.INTERNAL_DOMAIN + UserCoreConstants.DOMAIN_SEPARATOR +
                 adminGroupName, new String[]{adminUserName}, null);
         ((AbstractUserStoreManager) userStoreManager)
-                .updateGroupListOfHybridRole(adminGroupName, null, new String[]{adminGroupName});
+                .updateGroupListOfHybridRole(adminGroupName, null, new String[]{currentAdminGroupName});
         RoleInfo roleInfoObj = getRoleInfo(adminGroupName, userRealm, connection);
         RoleDAO.getInstance().transferPermissionsOfRole(connection, roleInfoObj, true);
         // Delete admin group permission data since it is already assigned for the admin role during the startup.
         RoleDAO.getInstance()
-                .deleteAdminGroupPermissions(connection, adminGroupName, MultitenantConstants.SUPER_TENANT_ID);
+                .deleteAdminGroupPermissions(connection, currentAdminGroupName, MultitenantConstants.SUPER_TENANT_ID);
 
         // Retrieve external role data of super tenant which has permissions assigned.
         List<RoleInfo> externalRoles = RoleDAO.getInstance()

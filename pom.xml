@@ -159,6 +159,11 @@
                 <artifactId>org.wso2.identity.apps.common</artifactId>
                 <version>${identity.apps.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.inbound.provisioning.scim2</groupId>
+                <artifactId>org.wso2.carbon.identity.scim2.common</artifactId>
+                <version>${identity.inbound.provisioning.scim2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -290,6 +295,7 @@
         <json.version>3.0.0.wso2v1</json.version>
 
         <identity.apps.version>1.0.72</identity.apps.version>
+        <identity.inbound.provisioning.scim2.version>1.5.46</identity.inbound.provisioning.scim2.version>
 
         <org.wso2.carbon.database.utils.version>2.0.12</org.wso2.carbon.database.utils.version>
         <org.wso2.carbon.database.utils.version.range>[2.0.0,2.1.0)</org.wso2.carbon.database.utils.version.range>

@@ -55,6 +55,8 @@ public class RoleDAO {
 
     public static final String RETRIEVE_UM_DOMAIN_ID = "SELECT UM_DOMAIN_ID FROM UM_DOMAIN WHERE UM_DOMAIN_NAME=?";
 
+    public static final String GET_ROLES_BY_TENANT = "SELECT UM_ROLE_NAME FROM UM_HYBRID_ROLE WHERE UM_TENANT_ID = ?";
+
     public static final String UM_ROLE_NAME = "UM_ROLE_NAME";
     public static final String UM_TENANT_ID = "UM_TENANT_ID";
     public static final String UM_DOMAIN_ID = "UM_DOMAIN_ID";
@@ -192,6 +194,29 @@ public class RoleDAO {
             preparedStatement.executeUpdate();
             connection.commit();
             connection.setAutoCommit(autoCommitStatus);
+        }
+    }
+
+    /**
+     * Get all roles of a particular tenant.
+     *
+     * @param connection    Database connection.
+     * @param tenantID      Tenant ID.
+     * @return              Roles list of tenant.
+     * @throws SQLException Error when getting list of roles of tenant.
+     */
+    public List<String> getRoleNamesListOfTenant(Connection connection, int tenantID) throws SQLException {
+
+        List<String> roleNamesList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ROLES_BY_TENANT)) {
+            preparedStatement.setInt(1, tenantID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String roleName = resultSet.getString(UM_ROLE_NAME);
+                    roleNamesList.add(roleName);
+                }
+                return roleNamesList;
+            }
         }
     }
 }

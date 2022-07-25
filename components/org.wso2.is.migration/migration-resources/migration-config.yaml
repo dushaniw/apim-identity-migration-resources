@@ -412,6 +412,8 @@ versions:
      # parameters:
        # Absolute path for the dry report. This is required in the dry run mode.
        # reportPath:
+       # Admin role of the current version. This is required only if changing the name of admin role in migrate Version.
+       # currentAdminRoleName:
    - name: "ConfigurationManagementSchemaMigrator"
      order: 5
      parameters:
@@ -471,6 +473,8 @@ versions:
      parameters:
        location: "step6"
        schema: "um"
+   - name: "SCIMGroupRoleMigrator"
+     order: 18
  -
    version: "5.12.0"
    migratorConfigs:
