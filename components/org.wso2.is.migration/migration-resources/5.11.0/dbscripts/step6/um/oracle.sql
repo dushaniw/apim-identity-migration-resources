@@ -1,5 +1,0 @@
-ALTER TABLE UM_TENANT ADD UM_TENANT_UUID VARCHAR(36) DEFAULT LOWER(regexp_replace(rawtohex(sys_guid()), '([A-F0-9]{8})([A-F0-9]{4})([A-F0-9]{4})([A-F0-9]{4})([A-F0-9]{12})', '\1-\2-\3-\4-\5')) NOT NULL
-/
-
-ALTER TABLE UM_TENANT ADD UNIQUE (UM_TENANT_UUID)
-/
