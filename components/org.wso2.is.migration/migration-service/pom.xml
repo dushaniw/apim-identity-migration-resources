@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.wso2.carbon.apimgt.identity.migration.resources</groupId>
         <artifactId>identity-migration-resources</artifactId>
-        <version>1.0.156</version>
+        <version>1.0.157-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
