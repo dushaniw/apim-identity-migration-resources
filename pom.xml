@@ -26,7 +26,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.carbon.apimgt.identity.migration.resources</groupId>
     <artifactId>identity-migration-resources</artifactId>
-    <version>1.0.159-SNAPSHOT</version>
+    <version>1.0.160-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WSO2 IS Migration Client</name>
     <description>Unified migration client of WSO2 IS</description>
