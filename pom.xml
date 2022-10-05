@@ -26,7 +26,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.carbon.apimgt.identity.migration.resources</groupId>
     <artifactId>identity-migration-resources</artifactId>
-    <version>1.0.160</version>
+    <version>1.0.161-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WSO2 IS Migration Client</name>
     <description>Unified migration client of WSO2 IS</description>
@@ -36,7 +36,7 @@
         <url>https://github.com/wso2-extensions/apim-identity-migration-resources.git</url>
         <developerConnection>scm:git:https://github.com/wso2-extensions/apim-identity-migration-resources.git</developerConnection>
         <connection>scm:git:https://github.com/wso2-extensions/apim-identity-migration-resources.git</connection>
-        <tag>v1.0.160</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>
