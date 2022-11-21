@@ -42,8 +42,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.wso2.carbon.is.migration.util.Constant.TOTP_SECRET_KEY_CLAIM;
-import static org.wso2.carbon.is.migration.util.Constant.TOTP_VERIFIED_SECRET_KEY_CLAIM;
-import static org.wso2.carbon.is.migration.util.Constant.USER_ID_CLAIM;
 import static org.wso2.carbon.is.migration.util.SQLConstants.RETRIEVE_PAGINATED_TOTP_SECRET_KEY_CLAIM_DATA_FROM_JDBC_USERSTORE_WITH_MYSQL;
 import static org.wso2.carbon.is.migration.util.SQLConstants.RETRIEVE_PAGINATED_TOTP_SECRET_KEY_CLAIM_DATA_FROM_JDBC_USERSTORE_WITH_OTHER;
 import static org.wso2.carbon.is.migration.util.SQLConstants.UPDATE_TOTP_SECRET_TO_JDBC_USERSTORE;

@@ -48,6 +48,7 @@ public class Constant {
     public static final String DELIMITER = "DELIMITER";
 
     public static final String EMAIL_TEMPLATE_PATH = "/identity/email";
+    public static final String SKIP_SUPER_TENANT_EMAIL_TEMPLATE_MIGRATION = "skipSuperTenantEmailTemplateMigration";
     public static final String TEMPLATE_TYPE = "type";
     public static final String TEMPLATE_TYPE_DISPLAY_NAME = "display";
     public static final String TEMPLATE_LOCALE = "locale";
@@ -80,4 +81,10 @@ public class Constant {
     public static final String SERVER_SYMMETRIC_KEY = "CryptoService.Secret";
     public static final String SYMMETRIC_KEY_CRYPTO_PROVIDER = "org.wso2.carbon.crypto.provider" +
             ".SymmetricKeyInternalCryptoProvider";
+
+    public static class ClaimDataMigratorConstants {
+
+        public static final String MIGRATOR_PARAMETER_USE_OWN_CLAIM_DATA_FILE = "useOwnClaimDataFile";
+        public static final String MIGRATOR_PARAMETER_OVERRIDE_EXISTING_CLAIMS = "overrideExistingClaims";
+    }
 }

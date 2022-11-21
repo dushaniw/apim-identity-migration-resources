@@ -9,7 +9,7 @@ DECLARE @Command NVARCHAR(max), @ConstaintName NVARCHAR(max), @TableName NVARCHA
 SET @TableName = 'IDN_OAUTH2_SCOPE'
 SET @ColumnName ='TENANT_ID'
 SELECT @ConstaintName = name
-    FROM sys.default_constraints
+    FROM sys.DEFAULT_CONSTRAINTS
     WHERE parent_object_id = object_id(@TableName)
 
 SELECT @Command = 'ALTER TABLE '+@TableName+' drop constraint '+ @ConstaintName

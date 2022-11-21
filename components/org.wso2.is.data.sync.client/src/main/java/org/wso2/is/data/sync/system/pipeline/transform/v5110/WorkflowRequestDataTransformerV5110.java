@@ -31,7 +31,6 @@ import java.util.List;
 
 import static org.wso2.is.data.sync.system.util.CommonUtil.getObjectValueFromEntry;
 import static org.wso2.is.data.sync.system.util.CommonUtil.isIdentifierNamesMaintainedInLowerCase;
-import static org.wso2.is.data.sync.system.util.Constant.COLUMN_ACCESS_TOKEN;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_REQUEST;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_UUID;
 

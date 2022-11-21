@@ -33,7 +33,6 @@ import java.util.List;
 
 import static org.wso2.carbon.is.migration.util.Constant.WORKFLOW_REQUEST_COLUMN;
 import static org.wso2.carbon.is.migration.util.SQLConstants.GET_WORKFLOW_REQUEST_QUERY;
-import static org.wso2.carbon.is.migration.util.SQLConstants.RETRIEVE_ALL_CONSUMER_SECRETS;
 import static org.wso2.carbon.is.migration.util.SQLConstants.UPDATE_WORKFLOW_REQUEST_QUERY;
 
 public class WorkFlowDAO {

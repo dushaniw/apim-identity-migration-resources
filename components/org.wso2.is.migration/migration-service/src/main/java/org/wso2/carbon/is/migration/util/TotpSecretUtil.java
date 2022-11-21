@@ -36,26 +36,19 @@ import org.wso2.carbon.user.core.service.RealmService;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
-import static org.wso2.carbon.is.migration.util.Constant.FORCE_UPDATE_USER_ID;
 import static org.wso2.carbon.is.migration.util.Constant.INCREMENT_PARAMETER_NAME;
 import static org.wso2.carbon.is.migration.util.Constant.MIGRATE_ALL;
 import static org.wso2.carbon.is.migration.util.Constant.MIGRATING_DOMAINS;
 import static org.wso2.carbon.is.migration.util.Constant.STARTING_POINT_PARAMETER_NAME;
-import static org.wso2.carbon.is.migration.util.Constant.TENANT_DOMAIN;
 import static org.wso2.carbon.is.migration.util.Constant.TOTP_SECRET_KEY_CLAIM;
 import static org.wso2.carbon.is.migration.util.Constant.TOTP_VERIFIED_SECRET_KEY_CLAIM;
 import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.getAllTotpSecretDataFromDb;
 import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.getSecretKeyClaimValue;
-import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.getTotpSecretClaimFromDB;
-import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.isCustomUserStore;
 import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.updateNewTotpSecretsToDb;
 import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.updateTotpSecretClaim;
-import static org.wso2.carbon.is.migration.util.UserStoreOperationsUtil.updateTotpSecretKeyInDb;
 
 public class TotpSecretUtil {
 

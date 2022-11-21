@@ -19,18 +19,13 @@ package org.wso2.carbon.is.migration.service.v5100.migrator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.identity.core.migrate.MigrationClientException;
-import org.wso2.carbon.identity.oauth2.util.OAuth2Util;
 import org.wso2.carbon.is.migration.service.Migrator;
-import org.wso2.carbon.is.migration.util.Constant;
 import org.wso2.carbon.is.migration.util.Schema;
-import org.wso2.carbon.is.migration.util.Utility;
-import org.wso2.carbon.user.api.Tenant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 
 public class ScopeDataMigrator extends Migrator {
 

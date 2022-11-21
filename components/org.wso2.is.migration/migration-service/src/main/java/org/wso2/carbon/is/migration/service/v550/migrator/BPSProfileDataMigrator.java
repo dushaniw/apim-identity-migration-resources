@@ -18,11 +18,11 @@ package org.wso2.carbon.is.migration.service.v550.migrator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.core.util.CryptoException;
-import org.wso2.carbon.core.util.CryptoUtil;
 import org.wso2.carbon.identity.core.migrate.MigrationClientException;
 import org.wso2.carbon.is.migration.service.Migrator;
 import org.wso2.carbon.is.migration.service.v550.bean.BPSProfile;
 import org.wso2.carbon.is.migration.service.v550.dao.BPSProfileDAO;
+import org.wso2.carbon.is.migration.service.v550.util.CryptoUtil;
 import org.wso2.carbon.is.migration.util.Constant;
 
 import java.sql.Connection;

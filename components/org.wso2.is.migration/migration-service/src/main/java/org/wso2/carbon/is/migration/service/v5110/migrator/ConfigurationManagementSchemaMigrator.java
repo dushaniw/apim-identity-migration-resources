@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.identity.core.migrate.MigrationClientException;
 import org.wso2.carbon.is.migration.service.SchemaMigrator;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;

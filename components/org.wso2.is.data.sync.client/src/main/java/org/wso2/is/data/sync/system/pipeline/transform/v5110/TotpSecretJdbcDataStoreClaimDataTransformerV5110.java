@@ -20,7 +20,6 @@ import org.wso2.is.data.sync.system.pipeline.JournalEntry;
 import org.wso2.is.data.sync.system.pipeline.PipelineContext;
 import org.wso2.is.data.sync.system.pipeline.transform.DataTransformer;
 import org.wso2.is.data.sync.system.pipeline.transform.VersionAdvice;
-import org.wso2.is.data.sync.system.pipeline.transform.model.TokenInfo;
 import org.wso2.is.data.sync.system.pipeline.transform.model.TotpSecretDataInfo;
 import org.wso2.is.data.sync.system.util.EncryptionUtil;
 import org.wso2.is.data.sync.system.util.OAuth2Util;
@@ -29,13 +28,10 @@ import java.util.List;
 
 import static org.wso2.is.data.sync.system.util.CommonUtil.getObjectValueFromEntry;
 import static org.wso2.is.data.sync.system.util.CommonUtil.isIdentifierNamesMaintainedInLowerCase;
-import static org.wso2.is.data.sync.system.util.Constant.COLUMN_ACCESS_TOKEN;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_DATA_KEY;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_DATA_VALUE;
-import static org.wso2.is.data.sync.system.util.Constant.COLUMN_REFRESH_TOKEN;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_TENANT_ID;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_USER_NAME;
-import static org.wso2.is.data.sync.system.util.OAuth2Util.updateJournalEntryForToken;
 import static org.wso2.is.data.sync.system.util.OAuth2Util.updateJournalEntryForTotp;
 
 @VersionAdvice(version = "5.11.0", tableName = "IDN_IDENTITY_USER_DATA")

@@ -3,9 +3,9 @@ migrationEnable: "true"
 # Migration Start Version
 currentVersion: "5.x.x"
 # Migration End Version
-migrateVersion: "5.x.x"
+migrateVersion: "6.x.x"
 
-continueOnError: "true"
+continueOnError: "false"
 batchUpdate: "true"
 ignoreForInactiveTenants: "true"
 
@@ -476,14 +476,14 @@ versions:
    - name: "SCIMGroupRoleMigrator"
      order: 18
  -
-   version: "5.12.0"
+   version: "6.0.0"
    migratorConfigs:
    -
-     name: "ApplicationRedirectURLMigrator"
+     name: "ApplicationAccessURLMigrator"
      order: 1
-     parameters:
-       location: "step1"
-       schema: "identity"
+     # parameters:
+       # Absolute path for the dry report. This is required in the dry run mode.
+       # reportPath:
 
    - name: "SchemaMigrator"
      order: 2
@@ -502,3 +502,77 @@ versions:
      parameters:
        location: "step3"
        schema: "consent"
+
+   - name: "SchemaMigrator"
+     order: 5
+     parameters:
+       location: "step4"
+       schema: "identity"
+
+   - name: "ClaimDataMigrator"
+     order: 6
+     parameters:
+       overrideExistingClaims: "true"
+       useOwnClaimDataFile: "true"
+
+   - name: "SchemaMigrator"
+     order: 7
+     parameters:
+       location: "step5"
+       schema: "identity"
+
+   - name: "SchemaMigrator"
+     order: 8
+     parameters:
+       location: "step5"
+       schema: "um"
+
+   - name: "SchemaMigrator"
+     order: 9
+     parameters:
+       location: "step6"
+       schema: "identity"
+
+   - name: "SchemaMigrator"
+     order: 10
+     parameters:
+       location: "step7"
+       schema: "identity"
+
+   - name: "SchemaMigrator"
+     order: 11
+     parameters:
+       location: "step7"
+       schema: "consent"
+
+   - name: "SchemaMigrator"
+     order: 12
+     parameters:
+       location: "step7"
+       schema: "um"
+
+   - name: "RecoveryDataMigrator"
+     order: 13
+
+   - name: "SCIMGroupSchemaMigrator"
+     order: 14
+     parameters:
+       location: "step8"
+       schema: "identity"
+       # Absolute path for the dry report. This is required in the dry run mode.
+       # reportPath:
+
+   - name: "SystemAppMigrator"
+     order: 15
+     parameters:
+        consoleRedirectUrl: "regexp=(https://localhost:9443/console|https://localhost:9443/t/(.*)/console)"
+        consoleAccessUrl: "https://localhost:9443/console"
+        myaccountRedirectUrl: "regexp=(https://localhost:9443/myaccount|https://localhost:9443/t/(.*)/myaccount)"
+        myaccountAccessUrl: "https://localhost:9443/myaccount"
+        accessTokenBindingType: "cookie"
+
+   - name: "AppInboundAuthMigrator"
+     order: 16
+
+   - name: "OIDCScopeDataMigrator"
+     order: 17

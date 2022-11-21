@@ -66,7 +66,7 @@ public class GroupsAndRolesMigrator extends Migrator {
         String reportPath = (String) migrationProperties.get(REPORT_PATH);
         try {
             reportUtil = new ReportUtil(reportPath);
-            reportUtil.writeMessage("\n--- Summery of the report ---\n");
+            reportUtil.writeMessage("\n--- Summary of the report ---\n");
             reportUtil.writeMessage("External roles data to be migrated..\n");
             reportUtil.writeMessage(
                     String.format("%20s | %20s | %20s", "External role name", "Domain " + "name", "Tenant ID"));

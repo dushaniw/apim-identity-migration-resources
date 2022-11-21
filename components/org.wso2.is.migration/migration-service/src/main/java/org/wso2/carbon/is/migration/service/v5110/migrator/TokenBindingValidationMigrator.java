@@ -54,7 +54,7 @@ public class TokenBindingValidationMigrator extends Migrator {
         String reportPath = (String) migrationProperties.get(REPORT_PATH);
         try {
             reportUtil = new ReportUtil(reportPath);
-            reportUtil.writeMessage("\n--- Summery of the report ---\n");
+            reportUtil.writeMessage("\n--- Summary of the report ---\n");
             reportUtil.writeMessage("Token Binding Validation parameter to be migrated for the following" +
                     " OIDC Service Providers..\n");
             reportUtil.writeMessage(

@@ -18,7 +18,6 @@ package org.wso2.carbon.is.migration.service.v5100.migrator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.identity.core.migrate.MigrationClientException;
 import org.wso2.carbon.is.migration.internal.ISMigrationServiceDataHolder;
 import org.wso2.carbon.is.migration.service.Migrator;
@@ -168,7 +167,12 @@ public class UserIDMigrator extends Migrator {
                 // If the domains are provided in config, use them. Otherwise update all the available domains.
                 String[] domains;
                 if (migratingDomains != null) {
-                    domains = migratingDomains.split(",");
+                    if (migratingDomains.isEmpty()) {
+                        domains = new String[0];
+                        log.info("User store domain list is empty");
+                    } else {
+                        domains = migratingDomains.split(",");
+                    }
                 } else {
                     domains = getAllDomainNames((AbstractUserStoreManager) userStoreManager);
                 }
@@ -277,7 +281,7 @@ public class UserIDMigrator extends Migrator {
                     throw new MigrationClientException("Error occurred while running the dry run.", e);
                 }
             }
-            reportUtil.writeMessage("\n--- Summery of the report ---\n");
+            reportUtil.writeMessage("\n--- Summary of the report ---\n");
             reportUtil.writeMessage(String.format("Number of tenants: %d \nNumber of domains: %d \n" +
                     "Number of warnings: %d ", numberOfTenants, numberOfDomains, numberOfWarnings));
             reportUtil.commit();

@@ -16,7 +16,7 @@
 package org.wso2.carbon.is.migration.internal;
 
 import org.wso2.carbon.base.api.ServerConfigurationService;
-import org.wso2.carbon.identity.application.mgt.ApplicationManagementService;
+import org.wso2.carbon.crypto.api.CryptoService;
 import org.wso2.carbon.identity.claim.metadata.mgt.ClaimMetadataManagementService;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.registry.core.service.TenantRegistryLoader;
@@ -36,7 +36,7 @@ public class ISMigrationServiceDataHolder {
 
     private static ServerConfigurationService serverConfigurationService;
 
-    private static ApplicationManagementService applicationManagementService;
+    private static CryptoService cryptoService;
 
     //Tenant registry loader which is used to load tenant registry
     private static TenantRegistryLoader tenantRegLoader;
@@ -155,13 +155,13 @@ public class ISMigrationServiceDataHolder {
         ISMigrationServiceDataHolder.serverConfigurationService = serverConfigurationService;
     }
 
-    public static void setApplicationManagementService(ApplicationManagementService applicationManagementService) {
+    public static CryptoService getCryptoService() {
 
-        ISMigrationServiceDataHolder.applicationManagementService = applicationManagementService;
+        return cryptoService;
     }
 
-    public static ApplicationManagementService getApplicationManagementService() {
+    public static void setCryptoService(CryptoService cryptoService) {
 
-        return applicationManagementService;
+        ISMigrationServiceDataHolder.cryptoService = cryptoService;
     }
 }

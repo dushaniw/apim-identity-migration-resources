@@ -42,8 +42,8 @@ import static org.wso2.is.data.sync.system.util.Constant.DELIMITER;
 import static org.wso2.is.data.sync.system.util.Constant.DELIMITER_COMMA;
 import static org.wso2.is.data.sync.system.util.Constant.DELIMITER_DOUBLE_SLASH;
 import static org.wso2.is.data.sync.system.util.Constant.SQL_DELIMITER_DB2;
-import static org.wso2.is.data.sync.system.util.Constant.SQL_DELIMITER_ORACLE;
 import static org.wso2.is.data.sync.system.util.Constant.SQL_DELIMITER_H2_MYSQL_MSSQL_POSGRES;
+import static org.wso2.is.data.sync.system.util.Constant.SQL_DELIMITER_ORACLE;
 
 /**
  * DataSourceManager.

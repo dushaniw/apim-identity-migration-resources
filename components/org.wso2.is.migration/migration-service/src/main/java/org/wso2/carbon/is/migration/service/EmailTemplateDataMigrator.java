@@ -116,7 +116,11 @@ public class EmailTemplateDataMigrator extends Migrator {
         List<NotificationTemplate> emailTemplates = loadEmailTemplates();
         try {
             // Migrate super tenant.
-            migrateTenantEmailTemplates(emailTemplates, SUPER_TENANT_DOMAIN_NAME);
+            boolean skipSuperTenantMigration = Boolean.parseBoolean(
+                    getMigratorConfig().getParameterValue(Constant.SKIP_SUPER_TENANT_EMAIL_TEMPLATE_MIGRATION));
+            if (!skipSuperTenantMigration) {
+                migrateTenantEmailTemplates(emailTemplates, SUPER_TENANT_DOMAIN_NAME);
+            }
 
             // Migrate other tenants.
             Set<Tenant> tenants = Utility.getTenants();

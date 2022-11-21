@@ -16,7 +16,6 @@
 
 package org.wso2.is.data.sync.system.database.dialect;
 
-import com.mysql.jdbc.ResultSetRow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.is.data.sync.system.database.ColumnData;

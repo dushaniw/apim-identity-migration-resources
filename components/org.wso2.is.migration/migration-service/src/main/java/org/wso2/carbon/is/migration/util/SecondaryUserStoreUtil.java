@@ -22,7 +22,6 @@ import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wso2.carbon.core.util.CryptoException;
 import org.wso2.carbon.identity.base.IdentityException;
 import org.wso2.carbon.identity.core.migrate.MigrationClientException;
 import org.wso2.carbon.identity.core.util.IdentityIOStreamUtils;

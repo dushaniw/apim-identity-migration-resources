@@ -45,6 +45,7 @@ import org.wso2.carbon.user.core.claim.ClaimMapping;
 import org.wso2.carbon.user.core.claim.inmemory.ClaimConfig;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,7 +79,8 @@ public class ClaimDataMigrator extends Migrator {
     @Override
     public void migrate() throws MigrationClientException {
 
-        String filePath = Utility.getDataFilePath(Constant.CLAIM_CONFIG, getVersionConfig().getVersion());
+        String filePath = getDataFilePath();
+
         try {
             claimConfig = FileBasedClaimBuilder.buildClaimMappingsFromConfigFile(filePath);
         } catch (IOException | XMLStreamException | UserStoreException e) {
@@ -169,14 +171,20 @@ public class ClaimDataMigrator extends Migrator {
                 if (existingLocalClaimURIs.isEmpty()) {
                     existingLocalClaimURIs = getExistingLocalClaimURIs(tenantId);
                 }
-                if (existingLocalClaimURIs.contains(claimURI)) {
-                    log.warn(Constant.MIGRATION_LOG + "Local claim: " + claimURI +
-                            " already exists in the system for tenant: " + tenantId);
-                    continue;
-                }
 
-                addLocalClaimMapping(tenantId, primaryDomainName, claimURI, claimMapping);
-                existingLocalClaimURIs.add(claimURI);
+                if (existingLocalClaimURIs.contains(claimURI) && isOverrideExistingClaimEnabled()) {
+                    log.info(Constant.MIGRATION_LOG + "Overriding local claim: " + claimURI + ", for the tenant: " +
+                            tenantId);
+                    updateLocalClaimMapping(tenantId, primaryDomainName, claimURI, claimMapping);
+                } else {
+                    if (existingLocalClaimURIs.contains(claimURI)) {
+                        log.warn(Constant.MIGRATION_LOG + "Local claim: " + claimURI +
+                                " already exists in the system for tenant: " + tenantId);
+                        continue;
+                    }
+                    addLocalClaimMapping(tenantId, primaryDomainName, claimURI, claimMapping);
+                    existingLocalClaimURIs.add(claimURI);
+                }
             } else {
                 externalClaims.put(entry.getKey(), entry.getValue());
             }
@@ -197,14 +205,19 @@ public class ClaimDataMigrator extends Migrator {
             if (existingExternalClaimURIs.get(claimDialectURI) == null) {
                 existingExternalClaimURIs.put(claimDialectURI, getExistingExternalClaimURIs(tenantId, claimDialectURI));
             }
-            if (existingExternalClaimURIs.get(claimDialectURI).contains(claimURI)) {
-                log.warn(Constant.MIGRATION_LOG + "External claim: " + claimURI +
-                        " already exists in the system for dialect: " + claimDialectURI + " in tenant: " + tenantId);
-                continue;
-            }
 
-            addExternalClaimMapping(tenantId, claimURI, claimDialectURI);
-            existingExternalClaimURIs.get(claimDialectURI).add(claimURI);
+            if (existingExternalClaimURIs.get(claimDialectURI).contains(claimURI) && isOverrideExistingClaimEnabled()) {
+                updateExternalClaimMapping(tenantId, claimURI, claimDialectURI);
+            } else {
+                if (existingExternalClaimURIs.get(claimDialectURI).contains(claimURI)) {
+                    log.warn(Constant.MIGRATION_LOG + "External claim: " + claimURI +
+                            " already exists in the system for dialect: " + claimDialectURI + " in tenant: " +
+                            tenantId);
+                    continue;
+                }
+                addExternalClaimMapping(tenantId, claimURI, claimDialectURI);
+                existingExternalClaimURIs.get(claimDialectURI).add(claimURI);
+            }
         }
     }
 
@@ -254,6 +267,19 @@ public class ClaimDataMigrator extends Migrator {
     private void addLocalClaimMapping(int tenantId, String primaryDomainName, String claimURI,
                                       ClaimMapping claimMapping) throws ClaimMetadataException {
 
+        LocalClaim localClaim = getPreparedLocalClaim(primaryDomainName, claimURI, claimMapping);
+        localClaimDAO.addLocalClaim(localClaim, tenantId);
+    }
+
+    private void updateLocalClaimMapping(int tenantId, String primaryDomainName, String claimURI,
+                                      ClaimMapping claimMapping) throws ClaimMetadataException {
+
+        LocalClaim localClaim = getPreparedLocalClaim(primaryDomainName, claimURI, claimMapping);
+        localClaimDAO.updateLocalClaim(localClaim, tenantId);
+    }
+
+    private LocalClaim getPreparedLocalClaim(String primaryDomainName, String claimURI, ClaimMapping claimMapping) {
+
         List<AttributeMapping> mappedAttributes = new ArrayList<>();
         if (StringUtils.isNotBlank(claimMapping.getMappedAttribute())) {
             mappedAttributes.add(new AttributeMapping(primaryDomainName, claimMapping.getMappedAttribute()));
@@ -285,8 +311,7 @@ public class ClaimDataMigrator extends Migrator {
             claimProperties.put(ClaimConstants.REQUIRED_PROPERTY, "true");
         }
 
-        LocalClaim localClaim = new LocalClaim(claimURI, mappedAttributes, claimProperties);
-        localClaimDAO.addLocalClaim(localClaim, tenantId);
+        return new LocalClaim(claimURI, mappedAttributes, claimProperties);
     }
 
     /**
@@ -300,9 +325,44 @@ public class ClaimDataMigrator extends Migrator {
     private void addExternalClaimMapping(int tenantId, String claimURI, String claimDialectURI) throws
             ClaimMetadataException {
 
+        ExternalClaim externalClaim = getPreparedExternalClaim(claimURI, claimDialectURI);
+        externalClaimDAO.addExternalClaim(externalClaim, tenantId);
+    }
+
+    private void updateExternalClaimMapping(int tenantId, String claimURI, String claimDialectURI) throws
+            ClaimMetadataException {
+
+        ExternalClaim externalClaim = getPreparedExternalClaim(claimURI, claimDialectURI);
+        externalClaimDAO.updateExternalClaim(externalClaim, tenantId);
+    }
+
+    private ExternalClaim getPreparedExternalClaim(String claimURI, String claimDialectURI) {
+
         String mappedLocalClaimURI = claimConfig.getPropertyHolder().get(claimURI)
                 .get(ClaimConstants.MAPPED_LOCAL_CLAIM_PROPERTY);
-        ExternalClaim externalClaim = new ExternalClaim(claimDialectURI, claimURI, mappedLocalClaimURI);
-        externalClaimDAO.addExternalClaim(externalClaim, tenantId);
+        return new ExternalClaim(claimDialectURI, claimURI, mappedLocalClaimURI);
+    }
+
+    private String getDataFilePath() {
+
+        boolean isUseOwnDataFile = false;
+        if (getMigratorConfig() != null && getMigratorConfig().getParameters() != null) {
+            isUseOwnDataFile = Boolean.parseBoolean(getMigratorConfig().getParameters().getProperty(Constant
+                            .ClaimDataMigratorConstants.MIGRATOR_PARAMETER_USE_OWN_CLAIM_DATA_FILE));
+        }
+
+        return isUseOwnDataFile ?
+                Utility.getDataFilePathWithFolderLocation(Paths.get(String.valueOf(getMigratorConfig().getOrder())),
+                        Constant.CLAIM_CONFIG, getVersionConfig().getVersion()) :
+                Utility.getDataFilePath(Constant.CLAIM_CONFIG, getVersionConfig().getVersion());
+    }
+
+    private boolean isOverrideExistingClaimEnabled() {
+
+        if (getMigratorConfig() != null && getMigratorConfig().getParameters() != null) {
+            return Boolean.parseBoolean(getMigratorConfig().getParameters().getProperty(Constant
+                    .ClaimDataMigratorConstants.MIGRATOR_PARAMETER_OVERRIDE_EXISTING_CLAIMS));
+        }
+        return false;
     }
 }

@@ -34,6 +34,9 @@ import org.wso2.carbon.identity.application.common.model.LocalAndOutboundAuthent
 import org.wso2.carbon.identity.application.common.model.Property;
 import org.wso2.carbon.identity.application.common.model.ServiceProvider;
 import org.wso2.carbon.identity.application.mgt.ApplicationManagementService;
+import org.wso2.carbon.identity.application.mgt.ApplicationManagementServiceImpl;
+import org.wso2.carbon.identity.application.mgt.ApplicationMgtSystemConfig;
+import org.wso2.carbon.identity.application.mgt.dao.ApplicationDAO;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
 import org.wso2.carbon.identity.oauth.IdentityOAuthAdminException;
 import org.wso2.carbon.identity.oauth.OAuthUtil;
@@ -48,7 +51,6 @@ import org.wso2.carbon.user.core.UserRealm;
 import org.wso2.carbon.user.core.UserStoreException;
 import org.wso2.carbon.user.core.util.UserCoreUtil;
 import org.wso2.carbon.utils.CarbonUtils;
-import org.wso2.identity.apps.common.util.AppPortalConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -87,21 +89,20 @@ public class TenantPortalMigratorUtil {
             throws IdentityApplicationManagementException, IdentityOAuthAdminException, RegistryException,
             UserStoreException {
 
-        ApplicationManagementService applicationMgtService = ISMigrationServiceDataHolder
-                .getApplicationManagementService();
+        ApplicationDAO applicationDAO = ApplicationMgtSystemConfig.getInstance().getApplicationDAO();
 
         UserRealm userRealm = ISMigrationServiceDataHolder.getRegistryService().getUserRealm(tenantId);
         String adminUsername = userRealm.getRealmConfiguration().getAdminUserName();
 
-        for (AppPortalConstants.AppPortal appPortal : AppPortalConstants.AppPortal.values()) {
-            if (appPortal.equals(AppPortalConstants.AppPortal.ADMIN_PORTAL)) {
+        for (AppPortal appPortal : AppPortal.values()) {
+            if (appPortal.equals(AppPortal.ADMIN_PORTAL)) {
                 String productVersion = CarbonUtils.getServerConfiguration().getFirstProperty("Version");
                 // Skip admin portal creation for IS 5.10.0.
                 if (StringUtils.isBlank(productVersion) || !productVersion.startsWith("5.11.0")) {
                     continue;
                 }
             }
-            if (applicationMgtService.getApplicationExcludingFileBasedSPs(appPortal.getName(), tenantDomain) == null) {
+            if (applicationDAO.getApplication(appPortal.getName(), tenantDomain) == null) {
                 // Initiate portal
                 String consumerSecret = OAuthUtil.getRandomNumber();
                 List<String> grantTypes = Arrays.asList(AUTHORIZATION_CODE, REFRESH_TOKEN, GRANT_TYPE_ACCOUNT_SWITCH);
@@ -154,8 +155,9 @@ public class TenantPortalMigratorUtil {
         claimConfig.setLocalClaimDialect(true);
         serviceProvider.setClaimConfig(claimConfig);
 
-        ISMigrationServiceDataHolder.getApplicationManagementService()
-                .createApplication(serviceProvider, tenantDomain, appOwner);
+        ApplicationManagementService applicationManagementService = ApplicationManagementServiceImpl.getInstance();
+        applicationManagementService.createApplication(serviceProvider, tenantDomain, appOwner);
+
         if (log.isDebugEnabled()) {
             log.debug(String.format("User portal application is created successfully for tenant %s.", tenantDomain));
         }

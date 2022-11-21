@@ -97,23 +97,20 @@ public class SecondaryUserstoreCryptoUtil {
                 if (log.isDebugEnabled()) {
                     log.debug("Cipher transformation for encryption : " + cipherTransformation);
                 }
-                keyStoreCipher = Cipher.getInstance(cipherTransformation, "BC");
                 isCipherTransformEnabled = true;
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("Default Cipher transformation for encryption : RSA");
                 }
-                keyStoreCipher = Cipher.getInstance("RSA", "BC");
             }
 
-            keyStoreCipher.init(Cipher.ENCRYPT_MODE, certs[0].getPublicKey());
             if (isCipherTransformEnabled && plainTextBytes.length == 0) {
                 encryptedKey = "".getBytes();
                 if (log.isDebugEnabled()) {
                     log.debug("Empty value for plainTextBytes null will persist to DB");
                 }
             } else {
-                encryptedKey = keyStoreCipher.doFinal(plainTextBytes);
+                encryptedKey = CryptoUtil.getDefaultCryptoUtil().encrypt(plainTextBytes);
             }
             if (isCipherTransformEnabled && returnSelfContainedCipherText) {
                 encryptedKey = CryptoUtil.getDefaultCryptoUtil().createSelfContainedCiphertext(encryptedKey,

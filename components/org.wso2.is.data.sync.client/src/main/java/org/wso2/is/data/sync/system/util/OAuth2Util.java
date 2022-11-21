@@ -36,7 +36,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.wso2.carbon.core.util.CryptoUtil.getDefaultCryptoUtil;
 import static org.wso2.is.data.sync.system.database.SQLQueryProvider.SQL_TEMPLATE_SELECT_SOURCE_IDP_ID;
 import static org.wso2.is.data.sync.system.database.SQLQueryProvider.SQL_TEMPLATE_SELECT_SOURCE_IDP_ID_ORACLE;
@@ -51,6 +50,8 @@ import static org.wso2.is.data.sync.system.util.Constant.COLUMN_REFRESH_TOKEN;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_REFRESH_TOKEN_HASH;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_TENANT_ID;
 import static org.wso2.is.data.sync.system.util.Constant.COLUMN_USER_NAME;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * OAuth2Util.

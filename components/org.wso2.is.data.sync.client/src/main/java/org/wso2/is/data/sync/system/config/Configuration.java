@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+
 import static org.wso2.is.data.sync.system.util.Constant.DEFAULT_BATCH_SIZE;
 import static org.wso2.is.data.sync.system.util.Constant.DEFAULT_SYNC_INTERVAL;
 import static org.wso2.is.data.sync.system.util.Constant.JVM_PROPERTY_BATCH_SIZE;
@@ -44,6 +43,9 @@ import static org.wso2.is.data.sync.system.util.Constant.SCHEMA_TYPE_CONSENT;
 import static org.wso2.is.data.sync.system.util.Constant.SCHEMA_TYPE_IDENTITY;
 import static org.wso2.is.data.sync.system.util.Constant.SCHEMA_TYPE_REGISTRY;
 import static org.wso2.is.data.sync.system.util.Constant.SCHEMA_TYPE_UM;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 
 /**
